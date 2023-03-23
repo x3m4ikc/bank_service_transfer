@@ -4,8 +4,7 @@ from decimal import Decimal
 from enum import Enum
 
 from sqlalchemy import CheckConstraint, ForeignKey, Integer, MetaData, String
-from sqlalchemy.orm import (Mapped, declarative_base, mapped_column,
-                            relationship)
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
 
 Base = declarative_base()
 metadata = MetaData()
@@ -114,8 +113,6 @@ class TemplateForPayment(Base):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     payee_name: Mapped[str] = mapped_column(String(255), nullable=False)
     payee_account_number: Mapped[str] = mapped_column(String(30), nullable=False)
-    template_purpose_of_payment: Mapped[str] = mapped_column(
-        String(255), nullable=False
-    )
+    template_purpose_of_payment: Mapped[str] = mapped_column(String(255), nullable=False)
     BIC: Mapped[str] = mapped_column(String(9), nullable=False)
     INN: Mapped[str] = mapped_column(String(12), nullable=False)

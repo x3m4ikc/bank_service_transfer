@@ -10,7 +10,7 @@ repos:
 
 
       - id: black
-        exclude: (poetry.lock|pyproject.toml|migrations)
+        exclude: (poetry.lock|pyproject.toml|migrations|models.py)
         name: black
         entry: black
         language: system
