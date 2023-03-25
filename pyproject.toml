@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "money-transfer"
+version = "0.1.0"
+description = ""
+authors = ["Egor Boev <egorcoders@gmail.com>"]
+readme = "README.md"
+packages = [{include = "money_transfer"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.0"
+uvicorn = "^0.21.1"
+sqlalchemy = "^2.0.7"
+python-dotenv = "^1.0.0"
+alembic = "^1.10.2"
+psycopg2 = "^2.9.5"
+isort = "^5.12.0"
+black = "^23.1.0"
+flake8 = "^6.0.0"
+pre-commit = "^3.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
