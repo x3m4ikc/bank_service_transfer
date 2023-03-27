@@ -3,7 +3,7 @@ from datetime import date
 from decimal import Decimal
 from enum import Enum
 
-from sqlalchemy import CheckConstraint, ForeignKey, Integer, MetaData, String
+from sqlalchemy import CheckConstraint, Column, ForeignKey, Integer, MetaData, String
 from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
 
 Base = declarative_base()
@@ -109,10 +109,10 @@ class TransferOrder(Base):
 class TemplateForPayment(Base):
     __tablename__ = "template_for_payment"
     __metadata__ = metadata
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    payee_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    payee_account_number: Mapped[str] = mapped_column(String(30), nullable=False)
-    template_purpose_of_payment: Mapped[str] = mapped_column(String(255), nullable=False)
-    BIC: Mapped[str] = mapped_column(String(9), nullable=False)
-    INN: Mapped[str] = mapped_column(String(12), nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    payee_name = Column(String, nullable=False)
+    payee_account_number = Column(String, nullable=False)
+    template_purpose_of_payment = Column(String, nullable=False)
+    BIC = Column(String, nullable=False)
+    INN = Column(String, nullable=False)
