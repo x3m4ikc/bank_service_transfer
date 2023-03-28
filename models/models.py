@@ -1,4 +1,4 @@
-from enum import Enum
+import enum
 
 from sqlalchemy import (
     DECIMAL,
@@ -7,19 +7,20 @@ from sqlalchemy import (
     Boolean,
     CheckConstraint,
     Column,
+    Enum,
     ForeignKey,
     Integer,
     MetaData,
     String,
     func,
 )
-from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
+from sqlalchemy.orm import declarative_base, mapped_column, relationship
 
 Base = declarative_base()
 metadata = MetaData()
 
 
-class TypePayee(Enum):
+class TypePayee(enum.Enum):
     INDIVIDUALS = "INDIVIDUALS"
     INDIVIDUAL_ENTEPRENEURS = "NDIVIDUAL_ENTEPRENEURS"
     ORGANIZATIONS = "ORGANIZATIONS"
@@ -29,7 +30,7 @@ class Payee(Base):
     __tablename__ = "payee"
     __metadata__ = metadata
     id = Column(Integer, primary_key=True, index=True)
-    type: Mapped[TypePayee] = mapped_column(nullable=True)
+    type = Column(Enum(TypePayee), nullable=True)
     name = Column(String(length=255))
     INN = Column(String(length=12))
     BIC = Column(String(length=9), nullable=False)
@@ -50,7 +51,7 @@ class AdditionalParameteres(Base):
     payee = relationship("Payee")
 
 
-class TransfersTypes(Enum):
+class TransfersTypes(enum.Enum):
     BETWEEN_CARDS = "BETWEEN_CARDS"
     TO_ANOTHER_CARD = "TO_ANOTHER_CARD"
     BY_PHONE_NUMBER = "BY_PHONE_NUMBER"
@@ -78,14 +79,14 @@ class TransferType(Base):
     max_sum = Column(DECIMAL, CheckConstraint("min_sum < max_sum"))
 
 
-class TransferStatus(Enum):
+class TransferStatus(enum.Enum):
     DRAFT = "DRAFT"
     IN_PROGRESS = "IN_PROGRESS"
     PERFORMED = "PERFORMED"
     REJECTED = "REJECTED"
 
 
-class TransferPeriod(Enum):
+class TransferPeriod(enum.Enum):
     WEEKLY = "WEEKLY"
     MONTHLY = "MONTHLY"
     QUARTERLY = "QUARTERLY"
@@ -103,12 +104,12 @@ class TransferOrder(Base):
     sum = Column(DECIMAL, nullable=False)
     sum_commission = Column(DECIMAL, nullable=False)
     completed_at = Column(TIMESTAMP(timezone=True), nullable=False, onupdate=func.now())
-    status: Mapped['TransferStatus'] = mapped_column(nullable=False)
+    status = Column(Enum(TransferStatus), nullable=False)
     authorization_code = Column(String(length=255), nullable=False)
     currency_exchange = Column(DECIMAL, nullable=False)
     is_favorite = Column(Boolean, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
-    periodicity: Mapped[TransferPeriod] = mapped_column(nullable=True)
+    periodicity = Column(Enum(TransferPeriod), nullable=True)
     client_id = Column(UUID, nullable=False)
 
     payee = relationship("Payee")
