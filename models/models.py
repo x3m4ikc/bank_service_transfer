@@ -13,7 +13,7 @@ from sqlalchemy import (
     String,
     func,
 )
-from sqlalchemy.orm import declarative_base, mapped_column, relationship
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
 
 Base = declarative_base()
 metadata = MetaData()
@@ -29,7 +29,7 @@ class Payee(Base):
     __tablename__ = "payee"
     __metadata__ = metadata
     id = Column(Integer, primary_key=True, index=True)
-    type = Column("TypePayee", nullable=True)
+    type: Mapped[TypePayee] = mapped_column(nullable=True)
     name = Column(String(length=255))
     INN = Column(String(length=12))
     BIC = Column(String(length=9), nullable=False)
@@ -45,7 +45,7 @@ class AdditionalParameteres(Base):
     key = Column(String(length=255), nullable=False)
     value = Column(String(length=255), nullable=False)
     description = Column(String(length=255))
-    payee_id = Column(UUID, ForeignKey("payee.id"))
+    payee_id = mapped_column(ForeignKey("payee.id"))
 
     payee = relationship("Payee")
 
@@ -103,12 +103,12 @@ class TransferOrder(Base):
     sum = Column(DECIMAL, nullable=False)
     sum_commission = Column(DECIMAL, nullable=False)
     completed_at = Column(TIMESTAMP(timezone=True), nullable=False, onupdate=func.now())
-    status = Column("TransferStatus", nullable=False)
+    status: Mapped['TransferStatus'] = mapped_column(nullable=False)
     authorization_code = Column(String(length=255), nullable=False)
     currency_exchange = Column(DECIMAL, nullable=False)
     is_favorite = Column(Boolean, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
-    periodicity = mapped_column("TransferPeriod", nullable=True)
+    periodicity: Mapped[TransferPeriod] = mapped_column(nullable=True)
     client_id = Column(UUID, nullable=False)
 
     payee = relationship("Payee")
