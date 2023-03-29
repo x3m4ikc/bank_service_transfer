@@ -1,22 +1,21 @@
 from db.database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from models.models import TemplateForPayment
-from sqlalchemy import select
+from schemas.schemas import TemplateForPaymentSchema
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from .crud import get_template_for_payment
 
 router = APIRouter(prefix="/api/v1", tags=["template"])
 
 
-@router.get("/get-details")
-async def get_template(template_id: int = Query(..., ge=0), session: AsyncSession = Depends(get_db)):
-    query = select(TemplateForPayment).where(TemplateForPayment.id == template_id)
-    template = await session.execute(query)
-    print(template)
-    template_for_payment = template.first()[0]
-    print(template_for_payment)
+@router.get("/get-details", status_code=200, response_model=TemplateForPaymentSchema)
+async def get_template(template_id: int = Query(), session: AsyncSession = Depends(get_db)):
+    template = await get_template_for_payment(session, template_id)
+
     if template is None:
-        return HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Template with id {template_id} not found"
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Template for payment with id:{template_id} not found",
         )
 
-    return template_for_payment
+    return template._asdict()
