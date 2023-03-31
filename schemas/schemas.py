@@ -9,3 +9,6 @@ class TemplateForPaymentSchema(BaseModel):
     template_purpose_of_payment: str = Field(..., description="template_purpose_of_payment")
     BIC: str = Field(..., description="BIC")
     INN: str = Field(..., description="INN")
+
+    class Config:
+        orm_mode = True
