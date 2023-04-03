@@ -1,11 +1,10 @@
 from db.database import get_db
 from fastapi import APIRouter, Depends, Query
 from schemas.schemas import TemplateForPaymentSchema
+from services.crud import get_template_for_payment
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .crud import get_template_for_payment
-
-router = APIRouter(prefix="/api/v1", tags=["template"])
+router = APIRouter(prefix="/api/v1")
 
 
 @router.get("/get-details", status_code=200, response_model=TemplateForPaymentSchema)
