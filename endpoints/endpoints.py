@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 router = APIRouter(prefix="/api/v1")
 
 
-@router.get("/template-details", status_code=200, response_model=TemplateForPaymentSchema)
+@router.get("/template-details", name='template_details',  status_code=200, response_model=TemplateForPaymentSchema)
 async def get_template(template_id: int = Query(), session: AsyncSession = Depends(get_db)):
     """Get template for payment by ID"""
     template_object = await get_template_for_payment(session, template_id)
