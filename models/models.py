@@ -14,9 +14,9 @@ from sqlalchemy import (
     String,
     func,
 )
-from sqlalchemy.orm import mapped_column, relationship
-from db.database import Base
+from sqlalchemy.orm import declarative_base, mapped_column, relationship
 
+Base = declarative_base()
 metadata = MetaData()
 
 
