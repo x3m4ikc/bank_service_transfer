@@ -12,3 +12,10 @@ class TemplateForPaymentSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class TemplateForExchangeRatesSchema(BaseModel):
+    currency_from: str = Field(..., description="Currency code from")
+    currency_to: str = Field(..., description="Currency code to")
+    exchange_rate: float = Field(..., description="Exchange rate")
+    units: float = Field(..., description="Amount of currency")
