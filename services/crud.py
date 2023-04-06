@@ -17,3 +17,7 @@ async def get_template_for_payment(session, template_id):
     template_model = TemplateForPaymentSchema.from_orm(template[0])
 
     return template_model
+
+
+async def get_exchange_rates(currencyCodeFrom, currencyCodeTo):
+    return [currencyCodeFrom, currencyCodeTo]
