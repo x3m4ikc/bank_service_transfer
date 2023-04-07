@@ -15,7 +15,11 @@ async def get_template(template_id: int = Query(), session: AsyncSession = Depen
 
 
 @router.get("/rates", status_code=status.HTTP_200_OK, response_model=TemplateForExchangeRatesSchema)
-async def get_rates(currency_from: str, currency_to: str, units: float = 100):
+async def get_rates(
+    currency_from: str = Query(..., max_length=3, min_length=3),
+    currency_to: str = Query(..., max_length=3, min_length=3),
+    units: float = 100,
+):
     """Get exchange rates"""
     results = await get_exchange_rates(currency_from, currency_to, units)
     return results
