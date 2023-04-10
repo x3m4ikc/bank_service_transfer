@@ -211,6 +211,18 @@ files = [
 ]
 
 [[package]]
+name = "currencyconverter"
+version = "0.17.6"
+description = "A currency converter using the European Central Bank data."
+category = "main"
+optional = false
+python-versions = ">=3.6.1"
+files = [
+    {file = "CurrencyConverter-0.17.6-py3-none-any.whl", hash = "sha256:ee9827afde950ad1a29a1e861770baf3d2cc6ac1b9562aa9914bae3b9d37f50d"},
+    {file = "CurrencyConverter-0.17.6.tar.gz", hash = "sha256:68c2ebcc86c882d5944bfba229b36f609d6d770ceb08078070a6cb89627b3be7"},
+]
+
+[[package]]
 name = "distlib"
 version = "0.3.6"
 description = "Distribution utilities"
@@ -1064,4 +1076,8 @@ test = ["covdefaults (>=2.2.2)", "coverage (>=7.1)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
+<<<<<<< HEAD
 content-hash = "35b4229a751f2b2c7f6a63315e85f0f9a2024478a8709de952bbd2b728e2888e"
+=======
+content-hash = "714ef636932db72ad4068954ceeb585c908ce9fb9ec2a45d7e25bf880ae5e118"
+>>>>>>> 41ac21d (Add endpoint)
