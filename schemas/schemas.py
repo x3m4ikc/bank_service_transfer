@@ -12,3 +12,7 @@ class TemplateForPaymentSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class TransferOrderSchema(BaseModel):
+    id: int = Field(..., description="transfer_order_id")

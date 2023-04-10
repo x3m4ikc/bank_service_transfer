@@ -1,7 +1,8 @@
 from fastapi import HTTPException, status
 from schemas.schemas import TemplateForPaymentSchema
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from .queries import retrieve_template_query
+from .queries import get_transfer_order_query, retrieve_template_query
 
 
 async def get_template_for_payment(session, template_id):
@@ -17,3 +18,9 @@ async def get_template_for_payment(session, template_id):
     template_model = TemplateForPaymentSchema.from_orm(template[0])
 
     return template_model
+
+
+async def get_transfer_order(session: AsyncSession, transfer_order_id: int):
+    query = get_transfer_order_query(transfer_order_id)
+    data = await session.execute(query)
+    return data.first()
