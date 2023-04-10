@@ -1,3 +1,6 @@
+[tool.pytest.ini_options]
+asyncio_mode="auto"
+
 [tool.poetry]
 name = "money-transfer"
 version = "0.1.0"
@@ -22,6 +25,7 @@ pytest = "^7.2.2"
 httpx = "^0.23.3"
 pydantic = "^1.10.7"
 asyncpg = "^0.27.0"
+pytest-asyncio = "^0.21.0"
 
 
 [build-system]
