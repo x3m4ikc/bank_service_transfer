@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+import pytest
+from fastapi import status
 from main import app
 from models.models import TemplateForPayment
 from sqlalchemy import insert
@@ -24,3 +26,21 @@ async def test_get_template(ac):
     res = await ac.get(url, params={"template_id": 0})
 
     assert res.status_code == HTTPStatus.OK
+
+
+@pytest.mark.parametrize(
+    "currency_from,currency_to,units,expected",
+    [
+        ("USD", "EUR", 100, status.HTTP_200_OK),
+        ("EUR", "USD", 50, status.HTTP_200_OK),
+        ("UE", "USD", 100, status.HTTP_422_UNPROCESSABLE_ENTITY),
+        ("rub", "eur", 20, status.HTTP_200_OK),
+    ],
+)
+async def test_get_rates(ac, currency_from, currency_to, units, expected):
+    url = app.url_path_for("exchange_currency")
+    res = await ac.get(
+        url, params={"currency_from": currency_from, "currency_to": currency_to, "units": units}
+    )
+
+    assert res.status_code == expected
