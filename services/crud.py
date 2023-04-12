@@ -1,4 +1,6 @@
 from fastapi import HTTPException, status
+from fastapi.encoders import jsonable_encoder
+from models.models import TransferOrder
 from schemas.schemas import TemplateForExchangeRatesSchema, TemplateForPaymentSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -41,4 +43,17 @@ async def get_exchange_rates(currency_from, currency_to, units):
 async def get_transfer_order(session: AsyncSession, transfer_order_id: int):
     query = get_transfer_order_query(transfer_order_id)
     data = await session.execute(query)
-    return data.first()
+
+    if query is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+
+    return data.scalars().first()
+
+
+async def switch_field(session: AsyncSession, obj: TransferOrder, field: str) -> TransferOrder:
+    obj_data = jsonable_encoder(obj)
+    setattr(obj, field, not obj_data[field])
+    session.add(obj)
+    await session.commit()
+    await session.refresh(obj)
+    return obj

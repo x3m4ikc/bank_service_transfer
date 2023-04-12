@@ -1,7 +1,16 @@
 from db.database import get_db
 from fastapi import APIRouter, Body, Depends, Query, status
-from schemas.schemas import TemplateForExchangeRatesSchema, TemplateForPaymentSchema
-from services.crud import get_exchange_rates, get_template_for_payment, get_transfer_order
+from schemas.schemas import (
+    TemplateForExchangeRatesSchema,
+    TemplateForPaymentSchema,
+    TransferOrderSchema,
+)
+from services.crud import (
+    get_exchange_rates,
+    get_template_for_payment,
+    get_transfer_order,
+    switch_field,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/api/v1")
@@ -32,10 +41,12 @@ async def get_rates(
     return results
 
 
-@router.patch("/payments/favorites", name="add_transfer_order_to_favorites", status_code=200)
+@router.patch(
+    "/payments/favorites", name="add_transfer_order_to_favorites", response_model=TransferOrderSchema
+)
 async def add_transfer_order_to_favorites(
     transfer_order_id: int = Body(embed=True), session: AsyncSession = Depends(get_db)
 ):
-    transfer_order = await get_transfer_order(session, transfer_order_id)
-
+    transfer_order_obj = await get_transfer_order(session, transfer_order_id)
+    transfer_order = await switch_field(session, transfer_order_obj, "is_favorite")
     return transfer_order
