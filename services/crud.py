@@ -1,5 +1,4 @@
 from fastapi import HTTPException, status
-from fastapi.encoders import jsonable_encoder
 from models.models import TransferOrder
 from schemas.schemas import TemplateForExchangeRatesSchema, TemplateForPaymentSchema
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -52,8 +51,7 @@ async def get_transfer_order(session: AsyncSession, transfer_order_id: int):
 
 
 async def switch_field(session: AsyncSession, obj: TransferOrder, field: str) -> TransferOrder:
-    obj_data = jsonable_encoder(obj)
-    setattr(obj, field, not obj_data[field])
+    setattr(obj, field, not obj.is_favorite)
     session.add(obj)
     await session.commit()
     await session.refresh(obj)
