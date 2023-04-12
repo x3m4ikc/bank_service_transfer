@@ -43,11 +43,12 @@ async def get_exchange_rates(currency_from, currency_to, units):
 async def get_transfer_order(session: AsyncSession, transfer_order_id: int):
     query = get_transfer_order_query(transfer_order_id)
     data = await session.execute(query)
+    transfer_order = data.scalars().first()
 
-    if query is None:
+    if transfer_order is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
-    return data.scalars().first()
+    return transfer_order
 
 
 async def switch_field(session: AsyncSession, obj: TransferOrder, field: str) -> TransferOrder:
