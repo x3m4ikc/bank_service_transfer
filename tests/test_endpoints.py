@@ -49,10 +49,12 @@ async def test_get_rates(ac, currency_from, currency_to, units, expected):
 async def test_add_transfer_order_to_favorites(ac):
     transfer_type = await factories.TransferTypeFactory.create()
     payee = await factories.PayeeFactory.create()
-    await factories.TransferOrderFactory(transfer_type_id=transfer_type.id, payee_id=payee.id)
+    transfer_order = await factories.TransferOrderFactory(
+        transfer_type_id=transfer_type.id, payee_id=payee.id
+    )
 
     url = app.url_path_for("add_transfer_order_to_favorites")
-    res = await ac.patch(url, data={"transfer_order_id": 0})
+    res = await ac.patch(url, json={"transfer_order_id": transfer_order.id})
 
-    assert res.json() == ""
     assert res.status_code == HTTPStatus.OK
+    assert res.json()["id"] == transfer_order.id

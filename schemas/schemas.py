@@ -19,10 +19,6 @@ class TemplateForPaymentSchema(BaseModel):
         orm_mode = True
 
 
-# class TransferOrderSchema(BaseModel):
-#     id: int = Field(..., description="transfer_order_id")
-
-
 class TemplateForExchangeRatesSchema(BaseModel):
     currency_from: str
     currency_to: str
