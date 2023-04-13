@@ -58,3 +58,17 @@ async def test_add_transfer_order_to_favorites(ac):
 
     assert res.status_code == HTTPStatus.OK
     assert res.json()["id"] == transfer_order.id
+
+
+async def test_retrieve_favorite_payment(ac):
+    transfer_type = await factories.TransferTypeFactory.create()
+    payee = await factories.PayeeFactory.create()
+    transfer_order = await factories.TransferOrderFactory(
+        transfer_type_id=transfer_type.id, payee_id=payee.id
+    )
+
+    url = app.url_path_for("payment_by_id", transfer_order_id=transfer_order.id)
+    print(url)
+    res = await ac.get(url)
+
+    assert res.status_code == HTTPStatus.OK

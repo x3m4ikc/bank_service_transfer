@@ -1,5 +1,5 @@
 from db.database import get_db
-from fastapi import APIRouter, Body, Depends, Query, status
+from fastapi import APIRouter, Body, Depends, Path, Query, status
 from schemas.schemas import (
     TemplateForExchangeRatesSchema,
     TemplateForPaymentSchema,
@@ -49,4 +49,17 @@ async def add_transfer_order_to_favorites(
 ):
     transfer_order_obj = await get_transfer_order(session, transfer_order_id)
     transfer_order = await switch_field(session, transfer_order_obj, "is_favorite")
+    return transfer_order
+
+
+@router.get(
+    "/payments/favorites/{transfer_order_id}",
+    name="payment_by_id",
+    status_code=200,
+    response_model=TransferOrderSchema,
+)
+async def retrieve_transfer_order_by_id(
+    transfer_order_id: int = Path(), session: AsyncSession = Depends(get_db)
+):
+    transfer_order = await get_transfer_order(session, transfer_order_id)
     return transfer_order
