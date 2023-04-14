@@ -53,9 +53,9 @@ async def add_transfer_order_to_favorites(
 
 
 @router.get(
-    "/payments/favorites/{transfer_order_id}",
+    "/payments/favorites/{transfer_order_id:int}",
     name="payment_by_id",
-    status_code=200,
+    status_code=status.HTTP_200_OK,
     response_model=TransferOrderSchema,
 )
 async def retrieve_transfer_order_by_id(

@@ -68,7 +68,6 @@ async def test_retrieve_favorite_payment(ac):
     )
 
     url = app.url_path_for("payment_by_id", transfer_order_id=transfer_order.id)
-    print(url)
     res = await ac.get(url)
 
     assert res.status_code == HTTPStatus.OK
