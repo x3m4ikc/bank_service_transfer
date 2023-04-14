@@ -46,6 +46,24 @@ async def test_get_rates(ac, currency_from, currency_to, units, expected):
     assert res.status_code == expected
 
 
+@pytest.mark.parametrize(
+    "currency_from,currency_to,units,expected",
+    [
+        ("USD", "EUR", 100, status.HTTP_200_OK),
+        ("EUR", "USD", 50, status.HTTP_200_OK),
+        ("UE", "USD", 100, status.HTTP_422_UNPROCESSABLE_ENTITY),
+        ("rub", "eur", 20, status.HTTP_200_OK),
+    ],
+)
+async def test_get_rates(ac, currency_from, currency_to, units, expected):
+    url = app.url_path_for("exchange_currency")
+    res = await ac.get(
+        url, params={"currency_from": currency_from, "currency_to": currency_to, "units": units}
+    )
+
+    assert res.status_code == expected
+
+
 async def test_add_transfer_order_to_favorites(ac):
     transfer_type = await factories.TransferTypeFactory.create()
     payee = await factories.PayeeFactory.create()
