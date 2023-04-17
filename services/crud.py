@@ -1,10 +1,16 @@
+from typing import List
+
 from fastapi import HTTPException, status
 from models.models import TransferOrder
-from schemas.schemas import TemplateForExchangeRatesSchema, TemplateForPaymentSchema
+from schemas.schemas import (
+    AutopaymentsSchema,
+    TemplateForExchangeRatesSchema,
+    TemplateForPaymentSchema,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .currency import get_exchange_info
-from .queries import get_transfer_order_query, retrieve_template_query
+from .queries import auto_payments_query, get_transfer_order_query, retrieve_template_query
 
 
 async def get_template_for_payment(session, template_id):
@@ -56,3 +62,17 @@ async def switch_field(session: AsyncSession, obj: TransferOrder, field: str) ->
     await session.commit()
     await session.refresh(obj)
     return obj
+
+
+async def get_auto_payments(session: AsyncSession, client_id: str) -> List[AutopaymentsSchema]:
+    query = auto_payments_query(client_id)
+    data = await session.execute(query)
+    data = data.all()
+
+    if not data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Auto payment with id:{client_id} not found",
+        )
+
+    return data

@@ -71,3 +71,20 @@ async def test_retrieve_favorite_payment(ac):
     res = await ac.get(url)
 
     assert res.status_code == HTTPStatus.OK
+
+
+async def test_retrieve_auto_payments(ac):
+    transfer_type = await factories.TransferTypeFactory.create()
+    payee = await factories.PayeeFactory.create()
+    await factories.TransferOrderFactory(transfer_type_id=transfer_type.id, payee_id=payee.id)
+    transfer_type = await factories.TransferTypeFactory.create(id=1)
+    payee = await factories.PayeeFactory.create(id=1)
+    transfer_order = await factories.TransferOrderFactory(
+        id=1, transfer_type_id=transfer_type.id, payee_id=payee.id
+    )
+
+    url = app.url_path_for("retrieve_auto_payments")
+    res = await ac.get(url, params={"client_id": transfer_order.client_id})
+
+    assert res.status_code == HTTPStatus.OK
+    assert res.json()[0]["id"] == 0
