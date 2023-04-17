@@ -210,6 +210,18 @@ files = [
 ]
 
 [[package]]
+name = "currencyconverter"
+version = "0.17.6"
+description = "A currency converter using the European Central Bank data."
+category = "main"
+optional = false
+python-versions = ">=3.6.1"
+files = [
+    {file = "CurrencyConverter-0.17.6-py3-none-any.whl", hash = "sha256:ee9827afde950ad1a29a1e861770baf3d2cc6ac1b9562aa9914bae3b9d37f50d"},
+    {file = "CurrencyConverter-0.17.6.tar.gz", hash = "sha256:68c2ebcc86c882d5944bfba229b36f609d6d770ceb08078070a6cb89627b3be7"},
+]
+
+[[package]]
 name = "distlib"
 version = "0.3.6"
 description = "Distribution utilities"
@@ -620,14 +632,14 @@ setuptools = "*"
 
 [[package]]
 name = "packaging"
-version = "23.0"
+version = "23.1"
 description = "Core utilities for Python packages"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "packaging-23.0-py3-none-any.whl", hash = "sha256:714ac14496c3e68c99c29b00845f7a2b85f3bb6f1078fd9f72fd20f0570002b2"},
-    {file = "packaging-23.0.tar.gz", hash = "sha256:b6ad297f8907de0fa2fe1ccbd26fdaf387f5f47c7275fedf8cce89f99446cf97"},
+    {file = "packaging-23.1-py3-none-any.whl", hash = "sha256:994793af429502c4ea2ebf6bf664629d07c1a9fe974af92966e4b8d2df7edc61"},
+    {file = "packaging-23.1.tar.gz", hash = "sha256:a392980d2b6cffa644431898be54b0045151319d1e7ec34f0cfed48767dd334f"},
 ]
 
 [[package]]
@@ -1123,4 +1135,4 @@ test = ["covdefaults (>=2.2.2)", "coverage (>=7.1)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e103e2cd789e4bfe2029018d34380d98bbc8da6ca4567db539beee7aa0d03547"
+content-hash = "4ef8caf7aec0c7fc20e33315458c68d18a032a3099f481e761865ad77be9a64f"

@@ -1,7 +1,8 @@
-from typing import Callable, Any
+from typing import Any, Callable
 
 from db.database import get_db
-from fastapi import APIRouter, Body, Depends, Query, status
+from fastapi import APIRouter, Body, Depends, Path, Query, status
+from models.models import TransfersTypes
 from schemas.schemas import (
     TemplateForExchangeRatesSchema,
     TemplateForPaymentSchema,
@@ -14,7 +15,6 @@ from services.crud import (
     switch_field,
 )
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import TransfersTypes
 
 router = APIRouter(prefix="/api/v1")
 
@@ -64,3 +64,16 @@ async def add_transfer_order_to_favorites(
 async def get_payment_type() -> list[Callable[[], Any]]:
     """Get payment types"""
     return [i.value for i in TransfersTypes]
+
+
+@router.get(
+    "/payments/favorites/{transfer_order_id:int}",
+    name="payment_by_id",
+    status_code=status.HTTP_200_OK,
+    response_model=TransferOrderSchema,
+)
+async def retrieve_transfer_order_by_id(
+    transfer_order_id: int = Path(), session: AsyncSession = Depends(get_db)
+):
+    transfer_order = await get_transfer_order(session, transfer_order_id)
+    return transfer_order
