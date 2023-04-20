@@ -1,14 +1,16 @@
-from typing import Any, Callable
+from typing import Any, Callable, List
 
 from db.database import get_db
 from fastapi import APIRouter, Body, Depends, Path, Query, status
 from models.models import TransfersTypes
 from schemas.schemas import (
+    AutopaymentsSchema,
     TemplateForExchangeRatesSchema,
     TemplateForPaymentSchema,
     TransferOrderSchema,
 )
 from services.crud import (
+    get_auto_payments,
     get_exchange_rates,
     get_template_for_payment,
     get_transfer_order,
@@ -77,3 +79,16 @@ async def retrieve_transfer_order_by_id(
 ):
     transfer_order = await get_transfer_order(session, transfer_order_id)
     return transfer_order
+
+
+@router.get(
+    "/autopayments/",
+    name="retrieve_auto_payments",
+    status_code=status.HTTP_200_OK,
+    response_model=List[AutopaymentsSchema],
+)
+async def retrieve_auto_payments(
+    client_id: str = Query(), session: AsyncSession = Depends(get_db)
+) -> List[AutopaymentsSchema]:
+    payments = await get_auto_payments(session, client_id)
+    return payments

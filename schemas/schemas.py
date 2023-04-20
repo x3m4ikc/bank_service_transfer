@@ -46,3 +46,11 @@ class TransferOrderSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class AutopaymentsSchema(BaseModel):
+    id: int
+    type_name: str
+
+    class Config:
+        orm_mode = True
