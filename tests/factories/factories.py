@@ -24,7 +24,7 @@ class TransferTypeFactory(AsyncFactory):
         model = models.TransferType
 
     id = 0
-    type_name = "test"
+    type_name = "AUTOPAYMENTS"
     currency_code = "test"
     min_commission = 1
     max_commission = 1

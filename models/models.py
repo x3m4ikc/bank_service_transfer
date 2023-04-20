@@ -69,7 +69,7 @@ class TransferType(Base):
     __tablename__ = "transfer_type"
     __metadata__ = metadata
     id = Column(Integer, primary_key=True, index=True)
-    type_name = Column(String(length=255), nullable=False)
+    type_name = Column(Enum(TransfersTypes), nullable=False)
     currency_code = Column(String, nullable=False)
     min_commission = Column(DECIMAL, nullable=False)
     max_commission = Column(DECIMAL, nullable=False)
