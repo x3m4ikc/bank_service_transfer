@@ -16,6 +16,6 @@ def auto_payments_query(client_id: str) -> Select:
     query = (
         select(TransferOrder.id, TransferType.type_name)
         .join(TransferType, TransferOrder.id == TransferType.id)
-        .where(TransferOrder.client_id == client_id)
+        .where(TransferOrder.client_id == client_id, TransferType.type_name == "AUTOPAYMENTS")
     )
     return query

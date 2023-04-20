@@ -50,7 +50,7 @@ class TransferOrderSchema(BaseModel):
 
 class AutopaymentsSchema(BaseModel):
     id: int
-    type_name: str
+    type_name: enum.Enum
 
     class Config:
         orm_mode = True
