@@ -2,7 +2,7 @@ version: "3.9"
 services:
   db:
     image: postgres
-    container_name: postgres
+    container_name: postgres_transfer
     volumes:
       - /a-geld/data/db_user:/var/lib/postgresql/data_transfer
     environment:
