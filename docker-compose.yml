@@ -1,0 +1,31 @@
+version: "3.9"
+networks:
+  default:
+    external:
+      name: credit-microservice_default
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - /a-geld/data/db_user:/var/lib/postgresql/data_transfer
+    environment:
+      - POSTGRES_DB=microservice_transfer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+  web:
+    image: $AND_DOCKER_REGISTRY_NAME/$PROJECT-$APP3:$CI_COMMIT_BRANCH
+    container_name: ${APP3}
+    command: bash -c "alembic upgrade head && uvicorn example:app --reload --port 8002"
+    volumes:
+      - .:/code
+    ports:
+      - "8002:8002"
+    environment:
+      - POSTGRES_NAME=microservice_transfer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
