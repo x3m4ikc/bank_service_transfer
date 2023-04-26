@@ -38,7 +38,7 @@ stage_testing:
     - pip install poetry
     - poetry config virtualenvs.in-project true
     - poetry install
-    - poetry run python alembic upgrade head
+    - alembic upgrade head
   script:
     - poetry run pytest
 
