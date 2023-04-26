@@ -29,7 +29,7 @@ stage_testing:
   services:
    - postgres
   variables:
-    POSTGRES_DB: microservice_credit
+    POSTGRES_DB: test_money_transfer
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: postgres
     POSTGRES_PORT: "5432"
@@ -38,7 +38,7 @@ stage_testing:
     - pip install poetry
     - poetry config virtualenvs.in-project true
     - poetry install
-    - poetry run python manage.py migrate
+    - poetry run python alembic upgrade head
   script:
     - poetry run pytest
 
