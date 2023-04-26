@@ -19,7 +19,6 @@ stage_linters:
     - poetry config virtualenvs.in-project true
     - poetry install
   script:
-    - cd ..
     - poetry run flake8 --exclude .venv/,poetry.lock,pyproject.toml,migrations --max-line-length 110
     - poetry run isort .
 
