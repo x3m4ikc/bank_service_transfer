@@ -32,7 +32,7 @@ stage_testing:
     POSTGRES_DB: test_money_transfer
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: postgres
-    POSTGRES_PORT: "5432"
+    POSTGRES_PORT: 5432
     DATABASE_HOST: postgres
     DATABASE_URL: postgresql://${POSTGRES_DB}:${POSTGRES_PASSWORD}@${DATABASE_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
   before_script:
