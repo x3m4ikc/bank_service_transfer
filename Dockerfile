@@ -10,4 +10,4 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 COPY . .
-WORKDIR money_transfer
+WORKDIR money-transfer
