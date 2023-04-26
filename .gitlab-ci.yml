@@ -29,12 +29,12 @@ stage_testing:
   services:
    - postgres
   variables:
-    DB_NAME: test_money_transfer
-    DB_USER: postgres
-    DB_PASS: postgres
-    DB_PORT: "5432"
-    DATABASE_HOST: "localhost"
-    DB_URL: postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    POSTGRES_DB: test_money_transfer
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_PORT: "5432"
+    DATABASE_HOST: postgres
+    DATABASE_URL: postgresql://${POSTGRES_DB}:${POSTGRES_PASSWORD}@${DATABASE_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
   before_script:
     - pip install poetry
     - poetry config virtualenvs.in-project true
